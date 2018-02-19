@@ -83,9 +83,9 @@ def main():
     updater.dispatcher.add_handler(handler)
 
     port = int(os.environ.get('PORT', '8443'))
-    webhook_args = dict(key='private.key', cert='cert.pem', webhook_url='https://pizza-bot-3468.herokuapp.com/'+token)
+    webhook_args = dict(key='private.key', cert='cert.pem',
+        webhook_url='https://pizza-bot-3468.herokuapp.com/'+token)
     updater.start_webhook(listen='0.0.0.0', port=port, url_path=token, **webhook_args)
-    updater.bot.set_webhook(**webhook_args)
     updater.idle()
 
 

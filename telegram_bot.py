@@ -95,8 +95,7 @@ def main():
     assert os.path.exists(key)
     assert os.path.exists(cert)
 
-    webhook_args = dict(key=key, cert=cert,
-        webhook_url='https://pizza-bot-3468.herokuapp.com/'+token)
+    webhook_args = dict(webhook_url='https://pizza-bot-3468.herokuapp.com/'+token)
     updater.start_webhook(listen='0.0.0.0', port=port, url_path=token, **webhook_args)
     updater.idle()
 

@@ -4,15 +4,6 @@ from transitions import Machine
 from pizza_bot.interface import Dialog, Order, TransactionManager
 
 
-'''
-idle -> size_picked -
-idle -> idle - ответ не верен, отобразить вопрос еще раз
-size_picked -> payment_picked - ответ верен, сохранить значение, продолжить
-size_picked -> size_picked - ответ не верен, отобразить вопрос еще раз
-payment_picked -> idle - ответ верен, действие выполнено
-payment_picked -> payment_picked - ответ не верен, отобразить вопрос еще раз
-'''
-
 class PizzaBot(object):
     messages = dict(
         pick_size='Какую вы хотите пиццу? Большую или маленькую?',

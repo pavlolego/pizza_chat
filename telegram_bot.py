@@ -17,6 +17,7 @@ from pizza_bot.telegram_chat import TelegramDialog
 from pizza_bot.console_chat import ConsoleTransactionManager
 from pizza_bot.bot import PizzaBot
 
+
 def gc_callback(bot: telegram.Bot, job: telegram.ext.Job):
     """Purge old dialogs"""
     logging.debug('Purging old dialogs')
@@ -89,7 +90,12 @@ def main():
     updater.dispatcher.add_handler(handler)
 
     port = int(os.environ.get('PORT', '8443'))
-    webhook_args = dict(key='private.key', cert='cert.pem',
+    key = os.path.abspath('private.key')
+    cert = os.path.abspath('cert.pem')
+    assert os.path.exists(key)
+    assert os.path.exists(cert)
+
+    webhook_args = dict(key=key, cert=cert,
         webhook_url='https://pizza-bot-3468.herokuapp.com/'+token)
     updater.start_webhook(listen='0.0.0.0', port=port, url_path=token, **webhook_args)
     updater.idle()

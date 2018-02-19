@@ -62,6 +62,8 @@ def main():
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=log_level and int(log_level))
+    if log_level is not None:
+        logging.getLogger('telegram.utils.webhookhandler').setLevel(log_level)
 
     # Telegram Bot Authorization Token
     cpus = os.cpu_count()

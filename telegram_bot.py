@@ -7,6 +7,7 @@ This program is dedicated to the public domain under the CC0 license.
 """
 import os
 import logging
+import time
 import telegram
 import telegram.ext
 from functools import partial
@@ -81,8 +82,8 @@ def main():
     port = int(os.environ.get('PORT', '8443'))
     updater.start_webhook(
         listen='0.0.0.0', port=port, url_path=token,
-        key='private.key', cert='cert.pem')
-    updater.bot.set_webhook('https://pizza-bot-3468.herokuapp.com/'+token)
+        key='private.key', cert='cert.pem',
+        webhook_url='https://pizza-bot-3468.herokuapp.com/'+token)
     updater.idle()
 
 

@@ -58,7 +58,10 @@ def main():
 
 
     # Set logging format
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    log_level = os.environ.get('LOGLEVEL', None)
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=log_level and int(log_level))
 
     # Telegram Bot Authorization Token
     bot = telegram.Bot(token)

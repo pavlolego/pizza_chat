@@ -64,8 +64,10 @@ def main():
         level=log_level and int(log_level))
 
     # Telegram Bot Authorization Token
-    bot = telegram.Bot(token)
-    updater = telegram.ext.Updater(bot=bot)
+    cpus = os.cpu_count()
+    request = telegram.Request(con_pool_size=cpus+4)
+    bot = telegram.Bot(token, request=request)
+    updater = telegram.ext.Updater(bot=bot, workers=cpus)
 
     # Add repeating job to get rid of old chats
     context = dict(threshold=threshold, dispatcher=updater.dispatcher)

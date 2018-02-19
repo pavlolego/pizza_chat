@@ -1,6 +1,7 @@
 
 from pizza_bot.interface import Dialog, Order
 import telegram
+import time
 
 config = {
     'app_id': '77057',

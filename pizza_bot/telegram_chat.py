@@ -46,5 +46,5 @@ class TelegramDialog(Dialog):
 
     def __str__(self):
         return 'TelegramDialog[last_received={}, message={}, chat={}]'.format(
-            last_received=self.last_received, message=self.message, chat=self.chat)
+            self.last_received, self.message, self.chat)
 

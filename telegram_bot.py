@@ -8,9 +8,11 @@ This program is dedicated to the public domain under the CC0 license.
 import os
 import logging
 import time
+from functools import partial
+
 import telegram
 import telegram.ext
-from functools import partial
+from telegram.utils.request import Request
 from pizza_bot.telegram_chat import TelegramDialog
 from pizza_bot.console_chat import ConsoleTransactionManager
 from pizza_bot.bot import PizzaBot
@@ -67,7 +69,7 @@ def main():
 
     # Telegram Bot Authorization Token
     cpus = os.cpu_count()
-    request = telegram.Request(con_pool_size=cpus+4)
+    request = Request(con_pool_size=cpus+4)
     bot = telegram.Bot(token, request=request)
     updater = telegram.ext.Updater(bot=bot, workers=cpus)
 

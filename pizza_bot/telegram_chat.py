@@ -3,11 +3,6 @@ from pizza_bot.interface import Dialog, Order
 import telegram
 import time
 
-config = {
-    'app_id': '77057',
-    'api_hash': '2444624a5ea7436cbb1a1865523b0459',
-}
-
 
 class TelegramDialog(Dialog):
     def __init__(self, bot: telegram.Bot):

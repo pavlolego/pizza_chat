@@ -30,7 +30,7 @@ class Order(object):
         if self.pizza_size == self.SMALL_SIZE:
             return 'маленькую'
         elif self.pizza_size == self.BIG_SIZE:
-            return 'большю'
+            return 'большую'
         raise TypeError('Wrong pizza size specified {!r}'.format(self.pizza_size))
 
     @property
@@ -54,4 +54,3 @@ class Order(object):
 class TransactionManager(object):
     def create_order(self, order: Order, dialog: Dialog):
         raise NotImplementedError()
-

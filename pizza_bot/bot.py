@@ -73,54 +73,62 @@ class PizzaBot(object):
 
         # Transition handler: idle -> size_picked
         if order.is_idle():
-            # Handle invalid input
-            if chat_input is None or chat_input == self.INVALID:
-                dialog.send_message(self.messages.get('pick_size'))
-                # For initial state is possible to have no input from user
-                # In that case it is greeting, no need to show variants
-                if chat_input is not None:
-                    self.send_variants(dialog)
-                return
-
-            # Set pizza size, Move transition to size_picked
-            order.set_size(chat_input)
-
-            # Ask for next input
-            dialog.send_message(self.messages.get('pick_payment'))
+            self.handle_idle(dialog, order, char_input)
 
         # Transition handler: size_picked -> payment_picked
         elif order.is_size_picked():
-            # Handle invalid input
-            if chat_input is self.INVALID:
-                dialog.send_message(self.messages.get('pick_payment'))
-                self.send_variants(dialog)
-                return
-
-            # Set order payment method, Move transition to payment_picked
-            order.set_payment(chat_input)
-
-            # Ask for next input
-            args = dict(pizza_size=order.size_description, payment_type=order.payment_description)
-            dialog.send_message(self.messages.get('confirm_pick').format(**args))
+            self.handle_size_pick(dialog, order, char_input)
 
         # Transition handler: payment_picked -> idle
         elif order.is_payment_picked():
-            # Handle invalid input
-            if chat_input is self.INVALID:
-                args = dict(pizza_size=order.size_description, payment_type=order.payment_description)
-                dialog.send_message(self.messages.get('confirm_pick').format(**args))
-                self.send_variants(dialog)
-                return
+            self.handle_payment_pick(dialog, order, char_input)
 
-            # Confirm order, Move transition to idle
-            order.confirm(chat_input)
-
-            if order.is_confirmed:
-                dialog.send_message(self.messages.get('success'))
-                self.manager.create_order(dialog, order)
-            self.start_dialog(dialog)
+    def handle_idle(self, dialog, order, char_input):
+        # Handle invalid input
+        if chat_input is None or chat_input == self.INVALID:
             dialog.send_message(self.messages.get('pick_size'))
+            # For initial state is possible to have no input from user
+            # In that case it is greeting, no need to show variants
+            if chat_input is not None:
+                self.send_variants(dialog)
+            return
 
+        # Set pizza size, Move transition to size_picked
+        order.set_size(chat_input)
+
+        # Ask for next input
+        dialog.send_message(self.messages.get('pick_payment'))
+
+    def handle_size_pick(self, dialog, order, char_input):
+        # Handle invalid input
+        if chat_input is self.INVALID:
+            dialog.send_message(self.messages.get('pick_payment'))
+            self.send_variants(dialog)
+            return
+
+        # Set order payment method, Move transition to payment_picked
+        order.set_payment(chat_input)
+
+        # Ask for next input
+        args = dict(pizza_size=order.size_description, payment_type=order.payment_description)
+        dialog.send_message(self.messages.get('confirm_pick').format(**args))
+
+    def handle_payment_pick(self, dialog, order, char_input):
+        # Handle invalid input
+        if chat_input is self.INVALID:
+            args = dict(pizza_size=order.size_description, payment_type=order.payment_description)
+            dialog.send_message(self.messages.get('confirm_pick').format(**args))
+            self.send_variants(dialog)
+            return
+
+        # Confirm order, Move transition to idle
+        order.confirm(chat_input)
+
+        if order.is_confirmed:
+            dialog.send_message(self.messages.get('success'))
+            self.manager.create_order(dialog, order)
+        self.start_dialog(dialog)
+        dialog.send_message(self.messages.get('pick_size'))
 
     def send_variants(self, dialog):
         order, machine = self.dialogs[dialog]

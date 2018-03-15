@@ -34,8 +34,6 @@ class TelegramDialog(Dialog):
         elif self.chat != update.message.chat_id:
             raise TypeError('Chat integrity error')
 
-        if update.message is None:
-            raise TypeError('Update message is empty')
         self.message = update.message.text
         self.last_received = time.time()
 

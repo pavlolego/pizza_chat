@@ -27,34 +27,38 @@ class ConsoleDialog(Dialog):
             self.bot.on_chat_exit(self)
             return
 
-        while True:
-            # Check messages present
-            if not self.messages:
-                logging.error('No messages for sending!!!')
-                self.reinit_chat()
-
-            # Print messages
-            print()
-            for message in self.messages[:-1]:
-                print(message)
-            last_message = self.messages[-1]
-            self.messages.clear()
-
-            # Obtain response
-            try:
-                self.input = input('{}:\n'.format(last_message))
-            except KeyboardInterrupt:
-                break
-
-            # Process input
-            try:
-                self.bot.on_chat_input(self)
-            except TypeError as e:
-                logging.exception(e)
-                self.reinit_chat()
+        while self.run_chat_cycle():
+            pass
 
         # Done
         self.bot.on_chat_exit(self)
+
+    def run_chat_cycle(self):
+        # Check messages present
+        if not self.messages:
+            logging.error('No messages for sending!!!')
+            self.reinit_chat()
+
+        # Print messages
+        print()
+        for message in self.messages[:-1]:
+            print(message)
+        last_message = self.messages[-1]
+        self.messages.clear()
+
+        # Obtain response
+        try:
+            self.input = input('{}:\n'.format(last_message))
+        except KeyboardInterrupt:
+            return False
+
+        # Process input
+        try:
+            self.bot.on_chat_input(self)
+        except TypeError as e:
+            logging.exception(e)
+            self.reinit_chat()
+        return True
 
     def reinit_chat(self):
         self.bot.on_chat_exit(self)

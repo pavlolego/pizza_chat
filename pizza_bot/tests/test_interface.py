@@ -1,9 +1,9 @@
 
 import unittest
-from pizza_bot.interface import Dialog, Order
+from pizza_bot.interface import Dialog, Order, TransactionManager
 
 class DialogTestCase(unittest.TestCase):
-    def test_interface(self):
+    def test_interface_contracts(self):
         """
         Assert base interface contracts are preserved
         """
@@ -70,3 +70,12 @@ class OrderTestCase(unittest.TestCase):
                 setter_callable = getattr(order, setter)
                 setter_callable(value)
                 self.assertEqual(getattr(order, target_field), value)
+
+
+class TransactionManagerTestCase(unittest.TestCase):
+    def test_interface_contracts(self):
+        manager = TransactionManager()
+        required_method = 'create_order'
+        self.assertTrue(hasattr(manager, required_method))
+        args = (None, None)
+        self.assertRaises(NotImplementedError, manager.create_order, *args)

@@ -7,27 +7,6 @@ from pizza_bot.telegram_chat import TelegramDialog
 class TelegramDialogTestCase(unittest.TestCase):
     """
     Telegram dialog implementation implement the interface and do proper processing.
-
-    test_reset_input:
-        It drops message
-        It affects get_input result
-
-    test_get_input:
-        It returns expected input
-        It returns same input between calls
-
-    test_send_message:
-        It raise exception for empty chat
-        It deliver message to bot
-
-    test_process_update:
-        It raises exception for empty message
-        It initialize and validate(raises exception) a chat reference
-        It saves a message
-        It records message timestamp
-
-    test_magic_str:
-        It renders expected string
     """
     def setUp(self):
         self.bot = M()
@@ -59,11 +38,6 @@ class TelegramDialogTestCase(unittest.TestCase):
             ])
 
     def test_process_update(self):
-        '''
-        - fails on None message
-        - fails when chat not match to arrived message
-        - succeeds, assigns a chat, message and last_received time
-        '''
         mocker = M()
         update = mocker.update
         chat = object()

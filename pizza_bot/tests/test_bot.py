@@ -4,43 +4,12 @@ from unittest.mock import MagicMock as M, call, patch
 from pizza_bot.bot import PizzaBot
 import contextlib
 
-'''
-bot / PizzaBot
-'''
-
 
 class PizzaBotTestCase(unittest.TestCase):
     """
     PizzaBot instrumentation functionality tests
     """
-    '''
-    PizzaBot.on_chat_start:
-        it invokes start_dialog and run_dialog called
-    PizzaBot.on_chat_input:
-        it validates dialog against registry
-        it invokes run_dialog
-    PizzaBot.on_chat_exit:
-        it validates dialog against registry
-        it invokes delete_dialog
-    PizzaBot.start_dialog:
-        it resets dialog input
-        it adds dialog and its order and machine to registry
-    PizzaBot.delete_dialog:
-        it removes dialog from registry
-    PizzaBot.run_dialog:
-        it calls correct handlers
-        it passing proper arguments
-    PizzaBot.handle_idle:
-        it prompts
-    PizzaBot.send_variants:
-        it sends message with action variants
-    PizzaBot.get_value:
-        it returns None for empty input
-        it returns invalid object when input is not expected
-        it returns variant mapping when input is valid
-    PizzaBot.log:
-        it prints a message
-    '''
+
     def setUp(self):
         self.bot_manager = M()
         self.dialog = M()

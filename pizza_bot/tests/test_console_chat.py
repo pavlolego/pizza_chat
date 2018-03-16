@@ -5,17 +5,8 @@ from unittest.mock import MagicMock as M, patch, call
 from pizza_bot.console_chat import ConsoleDialog, ConsoleTransactionManager
 
 
-'''
-console_chat / ConsoleDialog
-console_chat / ConsoleTransactionManager
-'''
-
-
 
 class ConsoleDialogTestCase(unittest.TestCase):
-    """
-    test
-    """
     def setUp(self):
         self.bot = M()
         self.maxDiff = None
@@ -50,7 +41,6 @@ class ConsoleDialogTestCase(unittest.TestCase):
         fails on on_chat_start with exception logged, and on_chat_exit
         passes with: run_chat_cycle called in loop and on_chat_exit called after
         '''
-        # self.fail()
         type_err = TypeError()
         mocker = M()
         self.bot.on_chat_start = mocker.on_chat_start

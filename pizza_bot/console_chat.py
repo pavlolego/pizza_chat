@@ -34,17 +34,7 @@ class ConsoleDialog(Dialog):
         self.bot.on_chat_exit(self)
 
     def run_chat_cycle(self):
-        # Check messages present
-        if not self.messages:
-            logging.error('No messages for sending!!!')
-            self.reinit_chat()
-
-        # Print messages
-        print()
-        for message in self.messages[:-1]:
-            print(message)
-        last_message = self.messages[-1]
-        self.messages.clear()
+        last_message = self.process_messages()
 
         # Obtain response
         try:
@@ -59,6 +49,20 @@ class ConsoleDialog(Dialog):
             logging.exception(e)
             self.reinit_chat()
         return True
+
+    def process_messages(self):
+        # Check messages present
+        if not self.messages:
+            logging.error('No messages for sending!!!')
+            self.reinit_chat()
+
+        # Print messages
+        print()
+        for message in self.messages[:-1]:
+            print(message)
+        last_message = self.messages[-1]
+        self.messages.clear()
+        return last_message
 
     def reinit_chat(self):
         self.bot.on_chat_exit(self)
